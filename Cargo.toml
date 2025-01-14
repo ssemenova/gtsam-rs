@@ -16,6 +16,11 @@ homepage = "https://github.com/ulagbulag/gtsam-rs"
 repository = "https://github.com/ulagbulag/gtsam-rs"
 version = "0.1.0"
 
+[features]
+default = ["build", "download"]
+download = []
+build = []
+
 [workspace.dependencies]
 anyhow = { version = "1.0", features = ["backtrace"] }
 cmake = { version = "0.1" }

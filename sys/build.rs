@@ -4,7 +4,7 @@ use glob::glob;
 
 const USE_SYSTEM_EIGEN: bool = !cfg!(feature = "build") || cfg!(feature = "build-use-system-eigen");
 #[cfg(feature = "build")]
-const USE_SYSTEM_METIS: bool = cfg!(feature = "build-use-system-metis");
+// const USE_SYSTEM_METIS: bool = cfg!(feature = "build-use-system-metis");
 
 fn get_target() -> String {
     let triples = env::var("TARGET").expect("failed to get environment variable: TARGET");
@@ -164,8 +164,8 @@ impl Repository {
         // Configure Sub-packages
         builder
             .define("GTSAM_BUILD_UNSTABLE", false.to_bool())
-            .define("GTSAM_USE_SYSTEM_EIGEN", USE_SYSTEM_EIGEN.to_bool())
-            .define("GTSAM_USE_SYSTEM_METIS", USE_SYSTEM_METIS.to_bool());
+            .define("GTSAM_USE_SYSTEM_EIGEN", USE_SYSTEM_EIGEN.to_bool());
+            // .define("GTSAM_USE_SYSTEM_METIS", USE_SYSTEM_METIS.to_bool());
 
         // Build
         builder.build();
@@ -241,12 +241,12 @@ impl Library {
             })
         }
 
-        let cc_files: Vec<_> = glob("./src/**/*.cc")
+        let cc_files: Vec<_> = glob("./sys/src/**/*.cc")
             .expect("failed to find C++ source files")
             .filter_map(Result::ok)
             .map(|file| file.to_path_buf())
             .collect();
-        let h_files: Vec<_> = glob("./src/**/*.h")
+        let h_files: Vec<_> = glob("./sys/src/**/*.h")
             .expect("failed to find C++ header files")
             .filter_map(Result::ok)
             .map(|file| file.to_path_buf())

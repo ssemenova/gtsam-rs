@@ -98,6 +98,35 @@ mod ffi {
             params: Pin<&mut LevenbergMarquardtParams>,
             value: u32,
         );
+
+        fn levenberg_marquardt_params_set_lambda_upper_bound(
+            params: Pin<&mut LevenbergMarquardtParams>,
+            value: f64,
+        );
+
+        fn levenberg_marquardt_params_set_lambda_lower_bound(
+            params: Pin<&mut LevenbergMarquardtParams>,
+            value: f64,
+        );
+
+
+        fn levenberg_marquardt_params_set_diagonal_damping(
+            params: Pin<&mut LevenbergMarquardtParams>,
+            flag: bool,
+        );
+
+
+        fn levenberg_marquardt_params_set_relative_error_to_l(
+            params: Pin<&mut LevenbergMarquardtParams>,
+            value: f64,
+        );
+
+
+        fn levenberg_marquardt_params_set_absolute_error_to_l(
+            params: Pin<&mut LevenbergMarquardtParams>,
+            value: f64,
+        );
+
     }
 
     unsafe extern "C++" {
