@@ -2,6 +2,8 @@
 
 #include "rust/cxx.h"
 #include <gtsam/geometry/Pose3.h>
+#include <gtsam/navigation/ImuBias.h>
+#include <gtsam/navigation/ImuFactor.h>
 #include <gtsam/nonlinear/NonlinearFactor.h>
 #include <gtsam/nonlinear/NonlinearFactorGraph.h>
 #include <gtsam/slam/BetweenFactor.h>
@@ -21,4 +23,14 @@ void nonlinear_factor_graph_add_prior_factor_pose3(
     NonlinearFactorGraph &graph, Key key, const Pose3 &prior,
     const std::shared_ptr<noiseModel::Base> &model);
 
-} // namespace gtsam
+void nonlinear_factor_graph_add_imu_prior(
+    NonlinearFactorGraph &graph, Key key, const imuBias::ConstantBias &prior,
+    const std::shared_ptr<noiseModel::Base> &model);
+
+void nonlinear_factor_graph_add_imu_factor(
+    NonlinearFactorGraph &graph, Key pose_i, Key vel_i,
+    Key pose_j, Key vel_j, Key bias,
+    const std::shared_ptr<PreintegratedImuMeasurements> &preintegratedMeasurements);
+}
+
+// namespace gtsam

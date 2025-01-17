@@ -1,8 +1,7 @@
 use cxx::UniquePtr;
 
 use crate::{
-    geometry::pose3::{Pose3, Pose3Ref},
-    inference::key::IntoKey,
+    geometry::pose3::{Pose3, Pose3Ref}, imu::imu_bias, inference::key::IntoKey
 };
 
 pub struct Values {
@@ -20,6 +19,9 @@ impl Default for Values {
 impl Values {
     pub fn insert_pose3(&mut self, key: impl IntoKey, value: &Pose3) {
         ::sys::values_insert_pose3(self.inner.pin_mut(), key.into_key(), &value.inner)
+    }
+    pub fn insert_imu_bias(&mut self, key: impl IntoKey, value: &imu_bias::ConstantBias) {
+        ::sys::values_insert_imu_bias(self.inner.pin_mut(), key.into_key(), &value.inner)
     }
 }
 

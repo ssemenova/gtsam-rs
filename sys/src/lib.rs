@@ -43,6 +43,25 @@ mod ffi {
         fn rot3_to_raw(src: &Rot3, dst: &mut [f64]);
     }
 
+    #[namespace = "gtsam::imuBias"]
+    unsafe extern "C++" {
+        include!("imu/imu.h");
+        type ConstantBias;
+
+        fn default_constantbias() -> UniquePtr<ConstantBias>;
+    }
+
+    unsafe extern "C++" {
+        include!("imu/imu.h");
+        type ImuFactor;
+        type PreintegratedImuMeasurements;
+
+        fn default_imufactor() -> UniquePtr<ImuFactor>;
+        fn default_preintegratedimumeasurements() -> UniquePtr<PreintegratedImuMeasurements>;
+
+    }
+
+    
     unsafe extern "C++" {
         include!("inference/symbol.h");
 
@@ -150,6 +169,23 @@ mod ffi {
             prior: &Pose3,
             model: &SharedPtr<BaseNoiseModel>,
         );
+
+        fn nonlinear_factor_graph_add_imu_prior(
+            graph: Pin<&mut NonlinearFactorGraph>,
+            key: u64,
+            prior: &ConstantBias,
+            model: &SharedPtr<BaseNoiseModel>,
+        );
+
+        fn nonlinear_factor_graph_add_imu_factor(
+            graph: Pin<&mut NonlinearFactorGraph>,
+            pose_i: u64,
+            vel_i: u64,
+            pose_j: u64,
+            vel_j: u64,
+            bias: u64,
+            preintegrated_measurements: &SharedPtr<PreintegratedImuMeasurements>,
+        );
     }
 
     unsafe extern "C++" {
@@ -164,5 +200,7 @@ mod ffi {
         fn values_exists(values: &Values, key: u64) -> bool;
 
         fn values_insert_pose3(values: Pin<&mut Values>, key: u64, value: &Pose3);
+
+        fn values_insert_imu_bias(values: Pin<&mut Values>, key: u64, value: &ConstantBias);
     }
 }

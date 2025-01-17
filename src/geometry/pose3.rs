@@ -1,5 +1,5 @@
 use cxx::UniquePtr;
-use nalgebra::{Isometry3, IsometryMatrix3, UnitQuaternion, Vector3};
+use nalgebra::{Isometry3, UnitQuaternion, Vector3};
 
 use super::{
     point3::{Point3, Point3Ref},
