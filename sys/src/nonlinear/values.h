@@ -2,6 +2,7 @@
 
 #include "rust/cxx.h"
 #include <gtsam/geometry/Pose3.h>
+#include <gtsam/base/Vector.h>
 #include <gtsam/nonlinear/Values.h>
 #include <gtsam/navigation/ImuBias.h>
 #include <memory>
@@ -16,6 +17,8 @@ bool values_exists(const Values &values, Key key);
 
 void values_insert_pose3(Values &values, Key key, const Pose3 &value);
 
-void values_insert_imu_bias(Values &values, Key key, const imuBias::ConstantBias &value);
+void values_insert_constant_bias(Values &values, Key key, const imuBias::ConstantBias &value);
+
+void values_insert_vector3(Values &values, Key key, const Vector3 &value);
 
 } // namespace gtsam

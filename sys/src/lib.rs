@@ -6,6 +6,19 @@ pub type Key = u64;
 #[cxx::bridge(namespace = "gtsam")]
 mod ffi {
     unsafe extern "C++" {
+        include!("base/vector.h");
+
+        type Vector3;
+
+        fn default_vector() -> UniquePtr<Vector3>;
+
+        fn new_vector3(x: f64, y: f64, z: f64) -> UniquePtr<Vector3>;
+
+        fn vector3_to_raw(src: &Vector3, dst: &mut [f64]);
+    }
+
+
+    unsafe extern "C++" {
         include!("geometry/point3.h");
 
         type Point3;
@@ -84,11 +97,19 @@ mod ffi {
         include!("linear/noise_model.h");
 
         type DiagonalNoiseModel;
+        type IsotropicNoiseModel;
 
         fn from_diagonal_noise_model_sigmas(sigmas: &mut [f64]) -> SharedPtr<DiagonalNoiseModel>;
 
         fn cast_diagonal_noise_model_to_base_noise_model(
             a: &SharedPtr<DiagonalNoiseModel>,
+        ) -> SharedPtr<BaseNoiseModel>;
+
+
+        fn from_isotropic_noise_model_dim_and_sigma(dim: usize, sigma: f64) -> SharedPtr<IsotropicNoiseModel>;
+
+        fn cast_isotropic_noise_model_to_base_noise_model(
+            a: &SharedPtr<IsotropicNoiseModel>,
         ) -> SharedPtr<BaseNoiseModel>;
     }
 
@@ -170,10 +191,18 @@ mod ffi {
             model: &SharedPtr<BaseNoiseModel>,
         );
 
-        fn nonlinear_factor_graph_add_imu_prior(
+        fn nonlinear_factor_graph_add_prior_factor_constant_bias(
             graph: Pin<&mut NonlinearFactorGraph>,
             key: u64,
             prior: &ConstantBias,
+            model: &SharedPtr<BaseNoiseModel>,
+        );
+
+
+        fn nonlinear_factor_graph_add_prior_factor_vector3(
+            graph: Pin<&mut NonlinearFactorGraph>,
+            key: u64,
+            prior: &Vector3,
             model: &SharedPtr<BaseNoiseModel>,
         );
 
@@ -201,6 +230,9 @@ mod ffi {
 
         fn values_insert_pose3(values: Pin<&mut Values>, key: u64, value: &Pose3);
 
-        fn values_insert_imu_bias(values: Pin<&mut Values>, key: u64, value: &ConstantBias);
+        fn values_insert_constant_bias(values: Pin<&mut Values>, key: u64, value: &ConstantBias);
+
+        fn values_insert_vector3(values: Pin<&mut Values>, key: u64, value: &Vector3);
+
     }
 }

@@ -14,4 +14,13 @@ void values_insert_pose3(Values &values, Key key, const Pose3 &value) {
   return values.insert(key, value);
 }
 
+void values_insert_constant_bias(Values &values, Key key, const imuBias::ConstantBias &value)
+{
+    return values.insert(key, value);
+}
+
+void values_insert_vector3(Values &values, Key key, const Vector3 &value) {
+    return values.insert(key, value);
+}
+
 } // namespace gtsam

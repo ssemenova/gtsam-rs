@@ -23,8 +23,12 @@ void nonlinear_factor_graph_add_prior_factor_pose3(
     NonlinearFactorGraph &graph, Key key, const Pose3 &prior,
     const std::shared_ptr<noiseModel::Base> &model);
 
-void nonlinear_factor_graph_add_imu_prior(
+void nonlinear_factor_graph_add_prior_factor_constant_bias(
     NonlinearFactorGraph &graph, Key key, const imuBias::ConstantBias &prior,
+    const std::shared_ptr<noiseModel::Base> &model);
+
+void nonlinear_factor_graph_add_prior_factor_vector3(
+    NonlinearFactorGraph &graph, Key key, const Vector3 &prior,
     const std::shared_ptr<noiseModel::Base> &model);
 
 void nonlinear_factor_graph_add_imu_factor(
@@ -32,5 +36,6 @@ void nonlinear_factor_graph_add_imu_factor(
     Key pose_j, Key vel_j, Key bias,
     const std::shared_ptr<PreintegratedImuMeasurements> &preintegratedMeasurements);
 }
+
 
 // namespace gtsam

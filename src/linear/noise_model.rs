@@ -22,3 +22,21 @@ impl DiagonalNoiseModel {
         }
     }
 }
+
+pub struct IsotropicNoiseModel {
+    pub(crate) inner: SharedPtr<::sys::IsotropicNoiseModel>,
+}
+
+impl IsotropicNoiseModel {
+    pub fn from_dim_and_sigma(dim: usize, sigma: f64) -> Self {
+        Self {
+            inner: ::sys::from_isotropic_noise_model_dim_and_sigma(dim, sigma),
+        }
+    }
+
+    pub(crate) fn to_base_model(&self) -> BaseNoiseModel {
+        BaseNoiseModel {
+            inner: ::sys::cast_isotropic_noise_model_to_base_noise_model(&self.inner),
+        }
+    }
+}

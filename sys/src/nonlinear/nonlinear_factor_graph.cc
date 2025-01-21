@@ -20,10 +20,18 @@ void nonlinear_factor_graph_add_prior_factor_pose3(
   return graph.addPrior(key, prior, to_boost_ptr(model));
 }
 
-void nonlinear_factor_graph_add_imu_prior(
+void nonlinear_factor_graph_add_prior_factor_constant_bias(
     NonlinearFactorGraph &graph, Key key, const imuBias::ConstantBias &prior,
     const std::shared_ptr<noiseModel::Base> &model)
 {
     return graph.addPrior(key, prior, to_boost_ptr(model));
 }
+
+void nonlinear_factor_graph_add_prior_factor_vector3(
+    NonlinearFactorGraph &graph, Key key, const Vector3 &prior,
+    const std::shared_ptr<noiseModel::Base> &model)
+{
+    return graph.addPrior(key, prior, to_boost_ptr(model));
+}
+
 } // namespace gtsam

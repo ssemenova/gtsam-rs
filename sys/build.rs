@@ -241,12 +241,12 @@ impl Library {
             })
         }
 
-        let cc_files: Vec<_> = glob("./sys/src/**/*.cc")
+        let cc_files: Vec<_> = glob("./src/**/*.cc")
             .expect("failed to find C++ source files")
             .filter_map(Result::ok)
             .map(|file| file.to_path_buf())
             .collect();
-        let h_files: Vec<_> = glob("./sys/src/**/*.h")
+        let h_files: Vec<_> = glob("./src/**/*.h")
             .expect("failed to find C++ header files")
             .filter_map(Result::ok)
             .map(|file| file.to_path_buf())
