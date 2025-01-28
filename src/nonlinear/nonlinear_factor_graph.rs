@@ -1,7 +1,7 @@
 use cxx::UniquePtr;
 
 use crate::{
-    base::vector::Vector3, geometry::pose3::Pose3, imu::{imu_bias::ConstantBias, imu_factor::PreintegratedImuMeasurements}, inference::key::IntoKey, linear::noise_model::{DiagonalNoiseModel, IsotropicNoiseModel}
+    base::vector::Vector3, geometry::pose3::Pose3, imu::imu_bias::ConstantBias, inference::key::IntoKey, linear::noise_model::{DiagonalNoiseModel, IsotropicNoiseModel}, navigation::combined_imu_factor::CombinedImuFactor, slam::projection_factor::SmartProjectionPoseFactorCal3S2
 };
 
 pub struct NonlinearFactorGraph {
@@ -17,6 +17,10 @@ impl Default for NonlinearFactorGraph {
 }
 
 impl NonlinearFactorGraph {
+    pub fn resize(&mut self, size: usize) {
+        ::sys::nonlinear_factor_graph_resize(self.inner.pin_mut(), size)
+    }
+
     pub fn add_between_factor_pose3(
         &mut self,
         from: impl IntoKey,
@@ -51,7 +55,7 @@ impl NonlinearFactorGraph {
         &mut self,
         symbol: impl IntoKey,
         prior: &ConstantBias,
-        model: &DiagonalNoiseModel,
+        model: &IsotropicNoiseModel,
     ) {
         ::sys::nonlinear_factor_graph_add_prior_factor_constant_bias(
             self.inner.pin_mut(),
@@ -75,25 +79,18 @@ impl NonlinearFactorGraph {
         )
     }
 
+    pub fn add_combined_imu_factor(
+        &mut self,
+        factor: &CombinedImuFactor,
+    ) {
+        ::sys::nonlinear_factor_graph_add_combined_imu_factor(
+            self.inner.pin_mut(),
+            &factor.inner,
+        )
+    }
 
-    // pub fn add_imu_factor(
-    //     &mut self,
-    //     pose_i: impl IntoKey,
-    //     vel_i: impl IntoKey,
-    //     pose_j: impl IntoKey,
-    //     vel_j: impl IntoKey,
-    //     bias: impl IntoKey,
-    //     preintegrated_measurements: PreintegratedImuMeasurements,
-    // ) {
-    //     ::sys::nonlinear_factor_graph_add_imu_factor(
-    //         self.inner.pin_mut(),
-    //         pose_i.into_key(),
-    //         vel_i.into_key(),
-    //         pose_j.into_key(),
-    //         vel_j.into_key(),
-    //         bias.into_key(),
-    //         preintegrated_measurements,
-    //     )
+    pub fn add_smartfactor(&mut self, factor: &SmartProjectionPoseFactorCal3S2) {
+        ::sys::nonlinear_factor_graph_add_smart_projection_pose_factor(self.inner.pin_mut(), &factor.inner)
+    }
 
-    // }
 }

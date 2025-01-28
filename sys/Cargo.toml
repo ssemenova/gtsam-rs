@@ -9,7 +9,6 @@ include = { workspace = true }
 keywords = { workspace = true }
 license = { workspace = true }
 readme = { workspace = true }
-rust-version = { workspace = true }
 homepage = { workspace = true }
 repository = { workspace = true }
 

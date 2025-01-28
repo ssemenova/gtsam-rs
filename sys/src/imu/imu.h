@@ -13,7 +13,8 @@ namespace imuBias
 
     std::unique_ptr<ConstantBias> new_constantbias(const Vector3 &biasAcc, const Vector3 &biasGyro);
 
-    // void point3_to_raw(const Point3 &src, rust::Slice<double> dst);
+    const Vector3 &accel_bias(const ConstantBias &bias);
+    const Vector3 &gyro_bias(const ConstantBias &bias);
 }
 
 std::unique_ptr<ImuFactor> default_imufactor();

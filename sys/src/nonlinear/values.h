@@ -11,7 +11,13 @@ namespace gtsam {
 
 std::unique_ptr<Values> default_values();
 
+void clear_values(Values &values);
+
 const Pose3 &values_at_pose3(const Values &values, Key key);
+
+const Vector3 &values_at_vector3(const Values &values, Key key);
+
+const imuBias::ConstantBias &values_at_constant_bias(const Values &values, Key key);
 
 bool values_exists(const Values &values, Key key);
 

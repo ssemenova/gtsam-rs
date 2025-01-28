@@ -1,25 +1,20 @@
-#include <gtsam/slam/ProjectionFactor.h>
+#include "projection_factor.h"
+#include "../base/rust.hpp"
 
 namespace gtsam
 {
+    std::unique_ptr<SmartProjectionPoseFactor<gtsam::Cal3_S2>> new_smart_projection_pose_factor(
+        const std::shared_ptr<noiseModel::Isotropic> & measurement_noise,
+        const std::shared_ptr<Cal3_S2> & K,
+        const Pose3 & sensor_P_body)
+    {
+        return std::make_unique<SmartProjectionPoseFactor<gtsam::Cal3_S2>>(
+            to_boost_ptr(measurement_noise),
+            to_boost_ptr(K),
+            sensor_P_body);
+    }
 
-    // std::unique_ptr<Point3> default_point3() { return std::make_unique<Point3>(); }
-
-    // std::unique_ptr<Point3> new_point3(double x, double y, double z)
-    // {
-    //     return std::make_unique<Point3>(x, y, z);
-    // }
-
-    // void point3_to_raw(const Point3 &src, rust::Slice<double> dst)
-    // {
-    //     const double *p_src = src.data();
-    //     double *p_dst = dst.data();
-
-    //     const size_t size = dst.size();
-    //     for (size_t i = 0; i < size; ++i)
-    //     {
-    //         p_dst[i] = p_src[i];
-    //     }
-    // }
-
+    void add(SmartProjectionPoseFactorCal3_S2 &factor, const Point2 & point, Key key) {
+        factor.add(point, key);
+    }
 } // namespace gtsam

@@ -7,3 +7,4 @@ pub mod nonlinear;
 pub mod imu;
 pub mod base;
 pub mod slam;
+pub mod navigation;

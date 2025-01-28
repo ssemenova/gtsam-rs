@@ -10,6 +10,8 @@ namespace imuBias {
         return std::make_unique<ConstantBias>(biasAcc, biasGyro);
     }
 
+    const Vector3 &accel_bias(const ConstantBias &bias) { return bias.accelerometer(); }
+    const Vector3 &gyro_bias(const ConstantBias &bias) { return bias.gyroscope(); }
 }
 
 std::unique_ptr<ImuFactor> default_imufactor() { return std::make_unique<ImuFactor>(); }

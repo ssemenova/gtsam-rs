@@ -7,7 +7,7 @@
 namespace gtsam
 {
 
-    std::unique_ptr<Vector3> default_vector();
+    std::unique_ptr<Vector3> default_vector3();
 
     std::unique_ptr<Vector3> new_vector3(double x, double y, double z);
 

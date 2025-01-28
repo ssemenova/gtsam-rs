@@ -62,3 +62,10 @@ impl Pose3Ref<'_> {
         }
     }
 }
+
+impl From<Pose3Ref<'_>> for Pose3 {
+    fn from(value: Pose3Ref) -> Self {
+        let isometry3 = Isometry3::from(value);
+        Self::from_parts(isometry3.translation.into(), isometry3.rotation.into())
+    }
+}

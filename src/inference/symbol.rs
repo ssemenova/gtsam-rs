@@ -14,9 +14,9 @@ impl Default for Symbol {
 }
 
 impl Symbol {
-    pub fn new(index: u64) -> Self {
+    pub fn new(character: u8, index: u64) -> Self {
         Self {
-            inner: ::sys::new_symbol(index),
+            inner: ::sys::new_symbol(character, index),
         }
     }
 
